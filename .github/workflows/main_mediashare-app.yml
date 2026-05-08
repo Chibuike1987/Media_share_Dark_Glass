@@ -1,10 +1,5 @@
 name: Build and deploy Node.js app to Azure Web App - mediashare-app
 
-# 🔐 REQUIRED for Azure OIDC login
-permissions:
-  id-token: write
-  contents: read
-
 on:
   push:
     branches:
@@ -29,7 +24,7 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      # ✅ Standalone packaging fix
+      # ✅ Standalone packaging
       - name: Prepare standalone output
         run: |
           mkdir -p release/.next
@@ -52,8 +47,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
+          path: release   # ✅ IMPORTANT FIX
 
-      # 🔐 Azure login (OIDC)
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -66,4 +61,4 @@ jobs:
         with:
           app-name: mediashare-app
           slot-name: Production
-          package: release
+          package: release   # ✅ now guaranteed to exist
