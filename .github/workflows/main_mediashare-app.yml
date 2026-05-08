@@ -24,10 +24,10 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      # 🔥 THIS IS THE KEY FIX (standalone packaging)
+      # ✅ FIXED: proper standalone packaging
       - name: Prepare standalone output
         run: |
-          mkdir release
+          mkdir -p release/.next
           cp -r .next/standalone/* release/
           cp -r .next/static release/.next/static
           cp -r public release/public
