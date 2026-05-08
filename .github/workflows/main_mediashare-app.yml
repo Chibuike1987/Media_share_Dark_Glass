@@ -1,6 +1,5 @@
 name: Build and deploy Node.js app to Azure Web App - mediashare-app
 
-# 🔐 REQUIRED FIX (this solves your Azure login error)
 permissions:
   id-token: write
   contents: read
@@ -29,10 +28,9 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      # ✅ Standalone packaging fix
       - name: Prepare standalone output
         run: |
-          mkdir -p release/.next
+          mkdir -p release
           cp -r .next/standalone/* release/
           cp -r .next/static release/.next/static
           cp -r public release/public
@@ -66,4 +64,4 @@ jobs:
         with:
           app-name: mediashare-app
           slot-name: Production
-          package: release
+          package: release/
